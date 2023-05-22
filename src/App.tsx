@@ -17,7 +17,7 @@ function App() {
     console.log(token);
     try {
       const response = await axios.post(
-        `http://ec2-43-201-38-179.ap-northeast-2.compute.amazonaws.com:8080/v1/users/register/${token}`
+        `https://pwa.dudoong.com/v1/users/register/${token}`
       );
       console.log(response.data);
     } catch (e) {
@@ -27,7 +27,7 @@ function App() {
   const updateToken = async (id: string, token: string) => {
     try {
       const response = await axios.post(
-        `http://ec2-43-201-38-179.ap-northeast-2.compute.amazonaws.com:8080/v1/users/${id}/token/${token}`
+        `https://pwa.dudoong.com/v1/users/${id}/token/${token}`
       );
       console.log(response.data);
     } catch (e) {
