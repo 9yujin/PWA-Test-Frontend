@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 // Import the functions you need from the SDKs you need
 import axios from "axios";
 import { initializeApp } from "firebase/app";
@@ -26,7 +27,7 @@ const requestPermission = async () => {
   const permission = await Notification.requestPermission();
   if (permission === "denied") {
     console.log("알림 권한 허용 안됨");
-    return;
+    return "";
   }
 
   console.log("알림 권한이 허용됨");

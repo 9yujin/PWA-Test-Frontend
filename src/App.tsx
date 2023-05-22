@@ -8,9 +8,11 @@ function App() {
   const [id, setId] = useState("");
 
   useEffect(() => {
-    requestPermission()
-      .then((fcmToken) => setToken(fcmToken!))
-      .catch(() => alert("토큰 발급에 실패했어요"));
+    const fetch = async () => {
+      const res = await requestPermission();
+      setToken(res);
+    };
+    fetch();
   }, []);
 
   const registerToken = async (token: string) => {
@@ -59,6 +61,9 @@ function App() {
             업데이트
           </button>
         </div>
+        <button onClick={() => navigator.clipboard.writeText(token)}>
+          토큰 복사
+        </button>
       </header>
     </div>
   );

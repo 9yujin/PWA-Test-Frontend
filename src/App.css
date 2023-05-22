@@ -46,7 +46,7 @@ button {
 
 .update {
   display: flex;
-  margin-top: 12px;
+  margin: 12px;
 }
 
 input {
