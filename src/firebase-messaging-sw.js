@@ -27,10 +27,10 @@ const requestPermission = async () => {
   const permission = await Notification.requestPermission();
   if (permission === "denied") {
     console.log("알림 권한 허용 안됨");
-    return "";
   }
-
-  console.log("알림 권한이 허용됨");
+  if (permission === "granted") {
+    console.log("알림 권한 허용");
+  }
 
   const token = await getToken(messaging, {
     vapidKey: process.env.REACT_APP_VAPID_KEY,
@@ -47,7 +47,7 @@ const requestPermission = async () => {
     // ...
   });
 
-  return token;
+  return { permission, token };
 };
 
 export { requestPermission };

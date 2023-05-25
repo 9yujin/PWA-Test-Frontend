@@ -10,7 +10,7 @@ self.addEventListener("activate", function (e) {
 });
 
 self.addEventListener("push", function (e) {
-  console.log("push: ", e.data.json());
+  console.log("background push: ", e.data.json());
   if (!e.data.json()) return;
 
   const resultData = e.data.json().notification;
@@ -23,7 +23,9 @@ self.addEventListener("push", function (e) {
   };
   console.log("push: ", { resultData, notificationTitle, notificationOptions });
 
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  e.waitUntil(
+    self.registration.showNotification(notificationTitle, notificationOptions)
+  );
 });
 
 self.addEventListener("notificationclick", function (event) {
@@ -62,6 +64,6 @@ messaging.onBackgroundMessage(function (payload) {
   const notificationOptions = {
     body: payload.notification.body,
   };
-
+  console.log(notificationTitle, notificationOptions);
   self.registration.showNotification(notificationTitle, notificationOptions);
 });

@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [token, setToken] = useState("");
+  const [permission, setPermission] = useState("");
   const [id, setId] = useState("");
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await requestPermission();
-      setToken(res);
+      const { permission, token } = await requestPermission();
+      setToken(token);
+      setPermission(permission);
     };
     fetch();
   }, []);
@@ -43,7 +45,9 @@ function App() {
         <p>
           홍익대학교 컴퓨터공학과 졸업프로젝트
           <br />
-          PWA test
+          token : {token}
+          <br />
+          permission : {permission}
         </p>
         <button onClick={() => registerToken(token)} disabled={!token.length}>
           회원가입

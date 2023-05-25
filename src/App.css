@@ -52,3 +52,7 @@ button {
 input {
   height: 32px;
 }
+
+p {
+  font-size: 14px;
+}
