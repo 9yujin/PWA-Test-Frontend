@@ -1,6 +1,9 @@
 import axios from "axios";
 import "./App.css";
-import { requestPermission } from "./firebase-messaging-sw";
+import {
+  requestPermission,
+  askNotificationPermission,
+} from "./firebase-messaging-sw";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -10,7 +13,7 @@ function App() {
 
   useEffect(() => {
     const fetch = async () => {
-      const { permission, token } = await requestPermission();
+      const { token } = await requestPermission();
       setToken(token);
       setPermission(permission);
     };
@@ -68,6 +71,7 @@ function App() {
         <button onClick={() => navigator.clipboard.writeText(token)}>
           토큰 복사
         </button>
+        <button onClick={askNotificationPermission}>알림 요청</button>
       </header>
     </div>
   );
