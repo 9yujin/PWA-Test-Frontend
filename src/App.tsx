@@ -12,13 +12,15 @@ function App() {
   const [id, setId] = useState("");
 
   useEffect(() => {
-    const fetch = async () => {
-      const { token } = await requestPermission();
-      setToken(token);
-      setPermission(permission);
-    };
-    fetch();
+    fetchToken();
   }, []);
+
+  const fetchToken = async () => {
+    const { token } = await requestPermission();
+    setToken(token);
+    setPermission(permission);
+    alert(token);
+  };
 
   const registerToken = async (token: string) => {
     console.log(token);
@@ -71,7 +73,14 @@ function App() {
         <button onClick={() => navigator.clipboard.writeText(token)}>
           토큰 복사
         </button>
-        <button onClick={askNotificationPermission}>알림 요청</button>
+        <button
+          onClick={() => {
+            askNotificationPermission();
+            fetchToken();
+          }}
+        >
+          알림 요청
+        </button>
       </header>
     </div>
   );
