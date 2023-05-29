@@ -3,6 +3,7 @@
 import axios from "axios";
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { openToast } from "./ToastAlert";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -44,6 +45,9 @@ const getFcmToken = async () => {
 
   onMessage(messaging, (payload) => {
     console.log("메시지가 도착했습니다.", payload);
+    openToast(
+      `[${payload.notification.title}] : 푸시 알림을 보기 위해 앱을 닫고 백그라운드에서 동작하게 해보세요`
+    );
     // ...
   });
 

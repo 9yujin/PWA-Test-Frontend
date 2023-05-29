@@ -5,6 +5,7 @@ import {
   askNotificationPermission,
 } from "./firebase-messaging-sw";
 import { useEffect, useState } from "react";
+import { ToastAlert } from "./ToastAlert";
 
 function App() {
   const [token, setToken] = useState("");
@@ -101,6 +102,7 @@ function App() {
           </button>
         </div>
       </header>
+      <ToastAlert />
     </div>
   );
 }
