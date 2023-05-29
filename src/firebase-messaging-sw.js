@@ -21,7 +21,7 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig);
 const messaging = getMessaging(firebase);
 
-const requestPermission = async () => {
+const getFcmToken = async () => {
   /* console.log("권한 요청 중...");
 
   const permission = await Notification.requestPermission();
@@ -47,10 +47,10 @@ const requestPermission = async () => {
     // ...
   });
 
-  return { token };
+  return token;
 };
 
-function checkNotificationPromise() {
+/* function checkNotificationPromise() {
   try {
     Notification.requestPermission().then();
   } catch (e) {
@@ -58,26 +58,37 @@ function checkNotificationPromise() {
   }
 
   return true;
-}
+} */
 
-const askNotificationPermission = () => {
+const handlePermission = (permission) => {
+  // 사용자의 응답에 관계 없이 크롬이 정보를 저장할 수 있도록 함
+  if (!("permission" in Notification)) {
+    Notification.permission = permission;
+  }
+  console.log(Notification.permission);
+  // 사용자 응답에 따라 단추를 보이거나 숨기도록 설정
+  if (
+    Notification.permission === "denied" ||
+    Notification.permission === "default"
+  ) {
+    //notificationBtn.style.display = "block";
+  } else {
+    //notificationBtn.style.display = "none";
+  }
+};
+
+const askNotificationPermission = async () => {
+  if (!("Notification" in window)) {
+    return "denied";
+  } else {
+    const result = await Notification.requestPermission();
+    handlePermission(result);
+    return result;
+  }
+};
+
+/* const askNotificationPermission = () => {
   // 권한을 실제로 요구하는 함수
-  const handlePermission = (permission) => {
-    // 사용자의 응답에 관계 없이 크롬이 정보를 저장할 수 있도록 함
-    if (!("permission" in Notification)) {
-      Notification.permission = permission;
-    }
-    console.log(Notification.permission);
-    // 사용자 응답에 따라 단추를 보이거나 숨기도록 설정
-    if (
-      Notification.permission === "denied" ||
-      Notification.permission === "default"
-    ) {
-      //notificationBtn.style.display = "block";
-    } else {
-      //notificationBtn.style.display = "none";
-    }
-  };
 
   // 브라우저가 알림을 지원하는지 확인
   if (!("Notification" in window)) {
@@ -93,6 +104,6 @@ const askNotificationPermission = () => {
       });
     }
   }
-};
+}; */
 
-export { requestPermission, askNotificationPermission };
+export { getFcmToken, askNotificationPermission };

@@ -1,7 +1,7 @@
 import axios from "axios";
 import "./App.css";
 import {
-  requestPermission,
+  getFcmToken,
   askNotificationPermission,
 } from "./firebase-messaging-sw";
 import { useEffect, useState } from "react";
@@ -13,13 +13,18 @@ function App() {
 
   useEffect(() => {
     fetchToken();
+    fetchNotificationPermission();
   }, []);
 
   const fetchToken = async () => {
-    const { token } = await requestPermission();
-    setToken(token);
-    setPermission(permission);
-    alert(token);
+    const res = await getFcmToken();
+    setToken(res);
+    //alert(res);
+  };
+  const fetchNotificationPermission = async () => {
+    const res = await askNotificationPermission();
+    setPermission(res);
+    //alert(`브라우저 알림 권한 설정: ${res}`);
   };
 
   const registerToken = async (token: string) => {
@@ -47,13 +52,15 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
+        <p className="info">
           홍익대학교 컴퓨터공학과 졸업프로젝트
           <br />
           token : {token}
           <br />
           permission : {permission}
         </p>
+
+        <br />
         <button onClick={() => registerToken(token)} disabled={!token.length}>
           회원가입
         </button>
@@ -62,25 +69,37 @@ function App() {
             type="text"
             value={id}
             onChange={(e) => setId(e.target.value)}
+            style={{ width: "30px" }}
           />
           <button
             onClick={() => updateToken(id, token)}
             disabled={!token.length}
+            style={{ width: "150px" }}
           >
             업데이트
           </button>
         </div>
+
         <button onClick={() => navigator.clipboard.writeText(token)}>
           토큰 복사
         </button>
-        <button
-          onClick={() => {
-            askNotificationPermission();
-            fetchToken();
-          }}
-        >
-          알림 요청
-        </button>
+        <div>
+          <br />
+          <p>** ios 사파리 **</p>
+          <p>step 1. 홈화면에 추가 후 열기</p>
+          <button
+            onClick={fetchNotificationPermission}
+            style={{ display: "block" }}
+          >
+            step 2. 알림 권한 허용
+          </button>
+          <button
+            onClick={fetchToken}
+            style={{ display: "block", marginTop: "12px" }}
+          >
+            step 3. 토큰 가져오기
+          </button>
+        </div>
       </header>
     </div>
   );
