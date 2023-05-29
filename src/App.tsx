@@ -35,6 +35,7 @@ function App() {
         `https://pwa.dudoong.com/v1/users/register/${token}`
       );
       console.log(response.data);
+      alert(`userId ${response.data.id}번입니다`);
     } catch (e) {
       console.log(e);
     }
@@ -53,13 +54,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p className="info">
-          홍익대학교 컴퓨터공학과 졸업프로젝트
-          <br />
-          token : {token}
-          <br />
-          permission : {permission}
-        </p>
+        <p className="info">홍익대학교 컴퓨터공학과 졸업프로젝트</p>
+        <p className="info">token : {token}</p>
+        <p className="info">permission : {permission}</p>
 
         <br />
         <button onClick={() => registerToken(token)} disabled={!token.length}>
@@ -86,7 +83,7 @@ function App() {
         </button>
         <div>
           <br />
-          <p>** ios 사파리 **</p>
+          <p>** ios 사파리 (iOS 16.4 이상) **</p>
           <p>step 1. 홈화면에 추가 후 열기</p>
           <button
             onClick={fetchNotificationPermission}
